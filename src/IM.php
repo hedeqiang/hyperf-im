@@ -15,7 +15,9 @@ use Hedeqiang\IM\Exceptions\Exception;
 use Hedeqiang\IM\Exceptions\HttpException;
 use Hedeqiang\IM\Support\Config;
 use Hedeqiang\IM\Traits\HasHttpRequest;
+use Psr\SimpleCache\CacheInterface;
 use Tencent\TLSSigAPIv2;
+use Hyperf\Utils\ApplicationContext;
 
 class IM
 {
@@ -97,16 +99,29 @@ class IM
      */
     protected function generateSign(string $identifier, int $expires = 15552000): string
     {
-        $container = \Hyperf\Utils\ApplicationContext::getContainer();
-        $cache = $container->get(\Psr\SimpleCache\CacheInterface::class);
-        $sign = $cache->get($identifier.'_cache');
-        if (!$sign) {
+        $cache = $this->di()->get(CacheInterface::class);
+
+        if (!$cache->has($identifier.'_cache'))
+        {
             $api = new TLSSigAPIv2($this->config->get('sdk_app_id'), $this->config->get('secret_key'));
             $sign = $api->genSig($identifier, $expires);
-            $cache->set($identifier.'_cache', $expires, $sign);
+            $cache->set($identifier.'_cache', $sign, $expires);
+            return $sign;
         }
-        var_dump($sign);
+        return $cache->get($identifier.'_cache');
+    }
 
-        return $sign;
+     /**
+     * Finds an entry of the container by its identifier and returns it.
+     * @param null|mixed $id
+     * @return mixed|\Psr\Container\ContainerInterface
+     */
+    protected function di($id = null)
+    {
+        $container = ApplicationContext::getContainer();
+        if ($id) {
+            return $container->get($id);
+        }
+        return $container;
     }
 }
