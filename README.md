@@ -20,6 +20,13 @@ $ composer require hedeqiang/im -vvv
 php bin/hyperf.php vendor:publish hedeqiang/im
 ```
 
+编辑 `.env` 文件
+```php
+SDK_APP_ID=1400***
+IDENTIFIER=hedeqiang
+SECRET_KEY=a56e6938cb1a885***
+```
+
 ## 使用
 ### 获取用户在线状态
 ```php
@@ -37,7 +44,7 @@ use Hyperf\Config\Annotation\Value;
 class IndexController extends AbstractController
 {
     /**
-     * @Value("im")
+     * @Value(key="im")
      */
     protected $config;
 
