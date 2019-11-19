@@ -1,13 +1,14 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
+
+/*
+ * This file is part of the hedeqiang/im.
  *
- * @link     https://www.hyperf.io
- * @document https://doc.hyperf.io
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * (c) hedeqiang<laravel_code@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hedeqiang\IM;
@@ -32,8 +33,8 @@ class ConfigProvider
                 [
                     'id' => 'config',
                     'description' => 'The config of im.',
-                    'source' => __DIR__ . '/../publish/im.php',
-                    'destination' => BASE_PATH . '/config/autoload/im.php',
+                    'source' => __DIR__.'/../publish/im.php',
+                    'destination' => BASE_PATH.'/config/autoload/im.php',
                 ],
             ],
         ];
