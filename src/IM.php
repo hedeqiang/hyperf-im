@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/ten-im.
+ * This file is part of the hedeqiang/im.
  *
  * (c) hedeqiang<laravel_code@163.com>
  *
@@ -15,7 +15,6 @@ use Hedeqiang\IM\Exceptions\Exception;
 use Hedeqiang\IM\Exceptions\HttpException;
 use Hedeqiang\IM\Support\Config;
 use Hedeqiang\IM\Traits\HasHttpRequest;
-use Hyperf\Di\Container;
 use Tencent\TLSSigAPIv2;
 
 class IM
@@ -32,7 +31,6 @@ class IM
      * @var Config
      */
     protected $config;
-
 
     public function __construct(array $config)
     {
@@ -89,6 +87,7 @@ class IM
 
     /**
      * Generate Sign.
+     *
      * @param string $identifier
      * @param int    $expires
      *
@@ -100,15 +99,14 @@ class IM
     {
         $container = \Hyperf\Utils\ApplicationContext::getContainer();
         $cache = $container->get(\Psr\SimpleCache\CacheInterface::class);
-        $sign = $cache->get($identifier . '_cache');
-        if (!$sign)
-        {
+        $sign = $cache->get($identifier.'_cache');
+        if (!$sign) {
             $api = new TLSSigAPIv2($this->config->get('sdk_app_id'), $this->config->get('secret_key'));
             $sign = $api->genSig($identifier, $expires);
-            $cache->set($identifier . '_cache',$expires,$sign);
+            $cache->set($identifier.'_cache', $expires, $sign);
         }
         var_dump($sign);
-        return $sign;
 
+        return $sign;
     }
 }

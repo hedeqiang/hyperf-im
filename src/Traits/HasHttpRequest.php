@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/ten-im.
+ * This file is part of the hedeqiang/im.
  *
  * (c) hedeqiang<laravel_code@163.com>
  *
@@ -12,7 +12,6 @@
 namespace Hedeqiang\IM\Traits;
 
 use GuzzleHttp\Client;
-use Hyperf\Guzzle\ClientFactory;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,7 +19,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait HasHttpRequest
 {
-
     /**
      * @var HandlerStack
      */
@@ -128,6 +126,7 @@ trait HasHttpRequest
         if ($this->stack instanceof HandlerStack) {
             return $this->stack;
         }
+
         return $this->stack = di()->get(HandlerStackFactory::class)->create();
     }
 
