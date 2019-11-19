@@ -101,19 +101,22 @@ class IM
     {
         $cache = $this->di()->get(CacheInterface::class);
 
-        if (!$cache->has($identifier.'_cache'))
-        {
+        if (!$cache->has($identifier.'_cache')) {
             $api = new TLSSigAPIv2($this->config->get('sdk_app_id'), $this->config->get('secret_key'));
             $sign = $api->genSig($identifier, $expires);
             $cache->set($identifier.'_cache', $sign, $expires);
+
             return $sign;
         }
+
         return $cache->get($identifier.'_cache');
     }
 
-     /**
+    /**
      * Finds an entry of the container by its identifier and returns it.
+     *
      * @param null|mixed $id
+     *
      * @return mixed|\Psr\Container\ContainerInterface
      */
     protected function di($id = null)
@@ -122,6 +125,7 @@ class IM
         if ($id) {
             return $container->get($id);
         }
+
         return $container;
     }
 }
