@@ -22,9 +22,9 @@ php bin/hyperf.php vendor:publish hedeqiang/im
 
 编辑 `.env` 文件
 ```php
-SDK_APP_ID=1400***
-IDENTIFIER=hedeqiang
-SECRET_KEY=a56e6938cb1a885***
+SDK_APP_ID=
+IDENTIFIER=
+SECRET_KEY=
 ```
 
 ## 使用
