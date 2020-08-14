@@ -22,13 +22,13 @@
     },
     "require": {
         "php": ">=7.2",
-        "ext-swoole": ">=4.4",
+        "ext-swoole": ">=4.5",
         "tencent/tls-sig-api-v2": "1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
-        "phpstan/phpstan": "^0.10.5",
-        "hyperf/testing": "1.1.*",
+        "phpstan/phpstan": "^0.12",
+        "hyperf/testing": "2.0.*",
         "swoft/swoole-ide-helper": "dev-master"
     },
     "config": {
@@ -36,7 +36,7 @@
     },
     "scripts": {
         "test": "co-phpunit -c phpunit.xml --colors=always",
-        "analyze": "phpstan analyse --memory-limit 300M -l 0 ./src",
+        "analyze": "phpstan analyse --memory-limit 1024M -l 0 ./src",
         "cs-fix": "php-cs-fixer fix $1"
     },
     "extra": {
