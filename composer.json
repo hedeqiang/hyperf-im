@@ -23,7 +23,7 @@
     "require": {
         "php": ">=7.2",
         "ext-swoole": ">=4.5",
-        "tencent/tls-sig-api-v2": "1.0"
+        "tencent/tls-sig-api-v2": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
