@@ -92,7 +92,7 @@ class IM
 
         if (!$cache->has($identifier.'_cache')) {
             $api = new TLSSigAPIv2($this->config->get('sdk_app_id'), $this->config->get('secret_key'));
-            $sign = $api->genSig($identifier, $expires);
+            $sign = $api->genUserSig($identifier, $expires);
             $cache->set($identifier.'_cache', $sign, $expires);
 
             return $sign;
