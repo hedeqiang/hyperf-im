@@ -12,12 +12,12 @@
 ## 安装
 
 ```shell
-$ composer require hedeqiang/im -vvv
+$ composer require playable-cn/im -vvv
 ```
 
 ## 发布配置
 ```php
-php bin/hyperf.php vendor:publish hedeqiang/im
+php bin/hyperf.php vendor:publish playable-cn/im
 ```
 
 编辑 `.env` 文件
