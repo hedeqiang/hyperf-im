@@ -25,7 +25,7 @@ class IM
 
 //    const ENDPOINT_TEMPLATE = 'https://console.tim.qq.com/%s/%s/%s?%s';
 
-    protected $imUrls = [
+    const ENDPOINT_TEMPLATES = [
         'zh' => 'https://console.tim.qq.com/%s/%s/%s?%s',
         'sgp' => 'https://adminapisgp.im.qcloud.com/%s/%s/%s?%s',
         'kr' => 'https://adminapikr.im.qcloud.com/%s/%s/%s?%s',
@@ -69,7 +69,7 @@ class IM
             return $result;
         }
 
-        throw new Exception('Tim REST API error: '.json_encode($result));
+        throw new Exception('Tim REST API error: ' . json_encode($result));
     }
 
     /**
@@ -79,7 +79,6 @@ class IM
      */
     protected function buildEndpoint(string $servername, string $command): string
     {
-        $imUrl = $this->config->get('region') ? $this->imUrls[$this->config->get('region')] : $this->imUrls['zh'];
         $query = http_build_query([
             'sdkappid' => $this->config->get('sdk_app_id'),
             'identifier' => $this->config->get('identifier'),
@@ -89,7 +88,7 @@ class IM
         ]);
 
 //        return \sprintf(self::ENDPOINT_TEMPLATE, self::ENDPOINT_VERSION, $servername, $command, $query);
-        return \sprintf($imUrl, self::ENDPOINT_VERSION, $servername, $command, $query);
+        return \sprintf($this->getEndpoint(), self::ENDPOINT_VERSION, $servername, $command, $query);
     }
 
     /**
@@ -101,15 +100,15 @@ class IM
     {
         $cache = $this->di()->get(CacheInterface::class);
 
-        if (!$cache->has($identifier.'_cache')) {
+        if (!$cache->has($identifier . '_cache')) {
             $api = new TLSSigAPIv2($this->config->get('sdk_app_id'), $this->config->get('secret_key'));
             $sign = $api->genUserSig($identifier, $expires);
-            $cache->set($identifier.'_cache', $sign, $expires);
+            $cache->set($identifier . '_cache', $sign, $expires);
 
             return $sign;
         }
 
-        return $cache->get($identifier.'_cache');
+        return $cache->get($identifier . '_cache');
     }
 
     /**
@@ -127,5 +126,14 @@ class IM
         }
 
         return $container;
+    }
+
+    protected function getEndpoint()
+    {
+        $region = $this->config->get('region');
+        if (empty($region) || !isset(self::ENDPOINT_TEMPLATES[$region])) {
+            $region = 'zh';
+        }
+        return self::ENDPOINT_TEMPLATES[$region];
     }
 }
