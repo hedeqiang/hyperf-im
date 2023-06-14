@@ -25,6 +25,8 @@ php bin/hyperf.php vendor:publish hedeqiang/im
 SDK_APP_ID=
 IDENTIFIER=
 SECRET_KEY=
+REGION=
+// REGION 默认zh，还可以配置：sgp、kr、ger、ind、usa
 ```
 
 ## 使用

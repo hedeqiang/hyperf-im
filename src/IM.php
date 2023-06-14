@@ -23,7 +23,16 @@ class IM
 {
     use HasHttpRequest;
 
-    const ENDPOINT_TEMPLATE = 'https://console.tim.qq.com/%s/%s/%s?%s';
+//    const ENDPOINT_TEMPLATE = 'https://console.tim.qq.com/%s/%s/%s?%s';
+
+    protected $imUrls = [
+        'zh' => 'https://console.tim.qq.com/%s/%s/%s?%s',
+        'sgp' => 'https://adminapisgp.im.qcloud.com/%s/%s/%s?%s',
+        'kr' => 'https://adminapikr.im.qcloud.com/%s/%s/%s?%s',
+        'ger' => 'https://adminapiger.im.qcloud.com/%s/%s/%s?%s',
+        'ind' => 'https://adminapiind.im.qcloud.com/%s/%s/%s?%s',
+        'usa' => 'https://adminapiusa.im.qcloud.com/%s/%s/%s?%s',
+    ];
 
     const ENDPOINT_VERSION = 'v4';
 
@@ -70,6 +79,7 @@ class IM
      */
     protected function buildEndpoint(string $servername, string $command): string
     {
+        $imUrl = $this->config->get('region') ? $this->imUrls[$this->config->get('region')] : $this->imUrls['zh'];
         $query = http_build_query([
             'sdkappid' => $this->config->get('sdk_app_id'),
             'identifier' => $this->config->get('identifier'),
@@ -78,7 +88,8 @@ class IM
             'contenttype' => self::ENDPOINT_FORMAT,
         ]);
 
-        return \sprintf(self::ENDPOINT_TEMPLATE, self::ENDPOINT_VERSION, $servername, $command, $query);
+//        return \sprintf(self::ENDPOINT_TEMPLATE, self::ENDPOINT_VERSION, $servername, $command, $query);
+        return \sprintf($imUrl, self::ENDPOINT_VERSION, $servername, $command, $query);
     }
 
     /**
